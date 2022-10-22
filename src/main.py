@@ -65,10 +65,20 @@ class UserDetails(BaseModel):
     features: list[str]
 
 
+class Country(BaseModel):
+    id: int
+    nameInSwedish: str
+    nameInEnglish: str
+
+
 class LoginBody(BaseModel):
     username: str
     password: str
     grant_type: str = "password"
+
+
+class RefreshBody(BaseModel):
+    RefreshToken: str
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -164,10 +174,10 @@ async def login_for_access_token(body: LoginBody) -> Token:
     return Token(token=access_token, refreshToken=user.refresh_token)
 
 
-@app.post("/api/v2/refresh")
-async def refresh_token(refresh_token: str) -> Token:
+@app.post("/api/token/v2/refresh")
+async def refresh_token(body: RefreshBody) -> Token:
     for user in fake_users_db.values():
-        if user["refresh_token"] == refresh_token:
+        if user["refresh_token"] == body.RefreshToken:
             access_token_expires = timedelta(
                 minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
             access_token = create_access_token(
@@ -191,5 +201,17 @@ async def get_me_details(current_user: User = Depends(get_current_active_user)) 
         name="Pontus Backman",
         profilePictureName="",
         username=current_user.username,
-        features=["view users", "view greenfee", "view customer", "view economy", "view leaderboard", "view offers", "packaging", "view roles", "view search"],
+        features=["view users", "view greenfee", "view customer", "view economy",
+                  "view leaderboard", "view offers", "packaging", "view roles", "view search"],
     )
+
+
+@app.get("/api/country", response_model=dict[str, list[Country]])
+async def get_countries(current_user: User = Depends(get_current_active_user)) -> dict[str, list[Country]]:
+    return {'countries': [
+        Country(id=1, nameInSwedish="Sverige", nameInEnglish="Sweden"),
+        Country(id=2, nameInSwedish="Norge", nameInEnglish="Norway"),
+        Country(id=3, nameInSwedish="Finland", nameInEnglish="Finland"),
+        Country(id=4, nameInSwedish="Danmark", nameInEnglish="Denmark"),
+        Country(id=5, nameInSwedish="Island", nameInEnglish="Iceland"),
+    ]}
