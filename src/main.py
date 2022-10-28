@@ -214,4 +214,5 @@ async def get_countries(current_user: User = Depends(get_current_active_user)) -
         Country(id=3, nameInSwedish="Finland", nameInEnglish="Finland"),
         Country(id=4, nameInSwedish="Danmark", nameInEnglish="Denmark"),
         Country(id=5, nameInSwedish="Island", nameInEnglish="Iceland"),
+        Country(id=6, nameInSwedish="Cypern", nameInEnglish="Cyprus")
     ]}
