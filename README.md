@@ -43,6 +43,8 @@ pdm plugin add pdm-vscode
 
 ### 4. Install dependencies (should maybe be run in reverse order):
 
+If promted about virtualenv, say no and use PEP582.
+
 ```
 pdm use
 pdm install
