@@ -1,0 +1,9 @@
+services:
+  mock-kawaii:
+    container_name: kawaii-api
+    build: .
+    ports:
+      - 44344:8000
+    volumes:
+      - ./src:/project/src
+    command: python -m uvicorn src.main:app --host 0.0.0.0 --reload
