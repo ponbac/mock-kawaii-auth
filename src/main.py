@@ -19,16 +19,9 @@ fake_users_db = {
         "username": "johndoe",
         "full_name": "John Doe",
         "email": "johndoe@example.com",
+        # unhashed = secret
         "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
         "refresh_token": "refresh_token",
-        "disabled": False,
-    },
-    "pontus": {
-        "username": "pontus",
-        "full_name": "Pontus Backman",
-        "email": "pontus.backman@spinit.se",
-        "hashed_password": "$2b$12$BdJrh8p9TJLwxsOH2XPAOu/WtKgIsyKkLQZ86id/8yKDd5V3.D2lm",
-        "refresh_token": "fresh",
         "disabled": False,
     },
 }
@@ -192,13 +185,18 @@ async def refresh_token(body: RefreshBody) -> Token:
     )
 
 
+@app.get("/")
+async def root():
+    return {"message": "Hello Kawaii!"}
+
+
 @app.get("/api/me/details", response_model=UserDetails)
 async def get_me_details(current_user: User = Depends(get_current_active_user)) -> UserDetails:
     return UserDetails(
         id=1,
         imagePath="",
         isSeller=True,
-        name="Pontus Backman",
+        name="John Doe",
         profilePictureName="",
         username=current_user.username,
         features=["view users", "view greenfee", "view customer", "view economy",

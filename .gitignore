@@ -127,7 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-.vscode/
 caches/
 .idea/
 __pypackages__
@@ -136,3 +135,4 @@ temp.py
 
 # Pyannotate generated stubs
 type_info.json
+.vscode/settings.json

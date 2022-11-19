@@ -17,6 +17,9 @@ license = {text = "MIT"}
 
 [tool.pdm]
 
+[tool.pdm.scripts]
+start = "uvicorn src.main:app --port 44344 --reload"
+
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"
